@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro de Empleados</title>
+<style>
+body { font-family: Arial; background: #f9f9f9; padding: 40px; }
+form { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+input, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 5px; border: 1px solid #ccc; }
+button { background: #28a745; color: #fff; border: none; font-weight: bold; cursor: pointer; }
+button:hover { background: #218838; }
+</style>
+</head>
+<body>
+<h2 style="text-align:center;">Registro de Empleados</h2>
+<form id="registroForm">
+  <input type="tel" name="celular" placeholder="Celular" required>
+  <input type="text" name="codofin" placeholder="CODOFIN">
+  <input type="text" name="cip" placeholder="CIP">
+  <input type="text" name="dni" placeholder="DNI" required>
+  <input type="text" name="grado" placeholder="Grado">
+  <input type="text" name="apellidos_nombres" placeholder="Apellidos y Nombres" required>
+  <input type="text" name="sit_policial" placeholder="SIT. POLICIAL">
+  <input type="text" name="sit_especial" placeholder="SIT. ESPECIAL">
+  <input type="text" name="cargo" placeholder="CARGO">
+  <input type="text" name="estado_cip" placeholder="Estado de CIP">
+  <input type="text" name="dni2" placeholder="DNI">
+  <input type="email" name="correo" placeholder="Correo Electrónico">
+  <button type="submit">Registrar</button>
+</form>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbzT50-Elg1Q-rskC54WfHkw9fAnvNO0JygClofRRDURILYlrs9pdax_7S0SGBGF_UIN/exec";
+
+document.getElementById("registroForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const formData = {
+    celular: this.celular.value,
+    codofin: this.codofin.value,
+    cip: this.cip.value,
+    dni: this.dni.value,    
+    grado: this.grado.value,
+    apellidos_nombres: this.apellidos_nombres.value,
+    sit_policial: this.sit_policial.value,
+    sit_especial: this.sit_especial.value,
+    cargo: this.cargo.value,
+    estado_cip: this.estado_cip.value,
+    dni2: this.dni2.value,
+    correo: this.correo.value
+  };
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: { "Content-Type": "application/json" },
+    mode: "cors"
+  })
+  .then(response => response.json())
+  .then(data => {
+    if(data.status === "ok"){
+      alert("✅ Registro exitoso");
+      this.reset();
+    } else {
+      alert("❌ Error: " + data.message);
+    }
+  })
+  .catch(error => alert("❌ Error: " + error.message));
+});
+</script>
+</body>
+</html>
